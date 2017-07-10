@@ -47,7 +47,7 @@ class ViewController: UIViewController {
 extension ViewController {
     @objc
     fileprivate func handleButton() {
-//        animateBackgroundColor()
+        animateBackgroundColor()
 //        animateBorderColor()
 //        animateCornerRadius()
 //        animateDepth()
@@ -56,7 +56,7 @@ extension ViewController {
 //        animateRotate()
 //        animateScale()
 //        animateSize()
-        animateSpin()
+//        animateSpin()
 //        animateSpring()
 //        animateTranslate()
     }
@@ -70,6 +70,10 @@ extension ViewController {
     fileprivate func prepareAnimatedView() {
         animatedView.backgroundColor = Color.deepPurple.base
         view.layout(animatedView).center().width(100).height(100)
+        
+        
+        // to remove
+        animatedView.shapePreset = .circle
     }
     
     fileprivate func prepareButton() {
@@ -84,7 +88,7 @@ extension ViewController {
         animatedView.shapePreset = .circle
         
         animatedView.animate(.delay(1),
-                             .duration(0.5),
+                             .duration(0),
                              .background(color: Color.cyan.base),
                              .completion({ [weak self] in
                                 
@@ -257,19 +261,18 @@ extension ViewController {
 
 extension ViewController {
     fileprivate func animateSpring() {
-        let point = view.center
-        
         animatedView.shapePreset = .circle
         
         animatedView.animate(.delay(1),
-                             .position(CGPoint(x: 200, y: 200)),
-                             .spring(stiffness: 15, damping: 2),
+                             .timingFunction(.easeOutBack),
+                             .scale(2),
+                             .spring(stiffness: 0.6, damping: 0.2),
                              .background(color: Color.cyan.base),
-                             .timingFunction(.linear),
                              .completion({ [weak self] in
                                 
-                                self?.animatedView.animate(.position(point),
-                                                           .duration(0.5),
+                                self?.animatedView.animate(.timingFunction(.easeOutBack),
+                                                           .scale(1),
+                                                           .spring(stiffness: 0.6, damping: 0.2),
                                                            .background(color: Color.deepPurple.base))
                              }))
     }

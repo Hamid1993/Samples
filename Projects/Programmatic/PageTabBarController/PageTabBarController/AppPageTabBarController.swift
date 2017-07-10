@@ -31,20 +31,28 @@
 import UIKit
 import Material
 
-class TransitionViewController: UIViewController {
-    fileprivate var fabButton: FABButton!
+class AppPageTabBarController: PageTabBarController {
+    open override func prepare() {
+        super.prepare()
     
-    open override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = Color.grey.lighten5
-
-        prepareNavigationItem()
+        delegate = self
+        preparePageTabBar()
+        
+        Motion.delay(3) { [weak self] in
+            self?.selectedIndex = 2
+        }
     }
 }
 
-extension TransitionViewController {
-    fileprivate func prepareNavigationItem() {
-        navigationItem.title = "New Title"
-        navigationItem.detail = "Transitioned View"
+extension AppPageTabBarController {
+    fileprivate func preparePageTabBar() {
+        pageTabBar.lineColor = Color.blueGrey.base
+        pageTabBar.dividerColor = Color.blueGrey.lighten5
+    }
+}
+
+extension AppPageTabBarController: PageTabBarControllerDelegate {
+    func pageTabBarController(pageTabBarController: PageTabBarController, didTransitionTo viewController: UIViewController) {
+        print("pageTabBarController", pageTabBarController, "didTransitionTo viewController:", viewController)
     }
 }
